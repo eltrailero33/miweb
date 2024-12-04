@@ -21,13 +21,9 @@ const db = new Client({
 });
 
 // Conexión a la base de datos
-db.connect((err) => {
-    if (err) {
-        console.error("Error conectando a PostgreSQL:", err);
-    } else {
-        console.log("Conectado a la base de datos PostgreSQL");
-    }
-});
+db.connect()
+    .then(() => console.log("Conectado a la base de datos PostgreSQL"))
+    .catch((err) => console.error("Error conectando a PostgreSQL:", err));
 
 // Endpoint para registrar datos de contacto
 app.post("/registro", (req, res) => {
@@ -39,7 +35,7 @@ app.post("/registro", (req, res) => {
 
     const query = "INSERT INTO contactos (nombre, correo, telefono, servicio) VALUES ($1, $2, $3, $4)";
 
-    client.query(query, [nombre, correo, telefono, servicio])
+    db.query(query, [nombre, correo, telefono, servicio])
         .then(() => {
             res.status(200).json({ message: "Datos registrados correctamente." });
         })
@@ -57,40 +53,40 @@ app.post("/register", (req, res) => {
         return res.status(400).json({ error: "Todos los campos son obligatorios" });
     }
 
-    const query = "INSERT INTO users (name, address, password) VALUES (?, ?, ?)";
+    const query = "INSERT INTO users (name, address, password) VALUES ($1, $2, $3)"; // Uso de $1, $2, $3
 
-    db.query(query, [name, address, password], (err, results) => {
-        if (err) {
+    db.query(query, [name, address, password])
+        .then(() => {
+            res.status(200).json({ message: "Usuario registrado con éxito" });
+        })
+        .catch((err) => {
             console.error("Error al insertar datos en la base de datos:", err);
             return res.status(500).json({ error: "Error al registrar usuario" });
-        }
-
-        res.status(200).json({ message: "Usuario registrado con éxito" });
-    });
+        });
 });
 
 // Endpoint para buscar un usuario por su ID
 app.get("/usuario/:id", (req, res) => {
     const userId = req.params.id;
 
-    const query = "SELECT name, address FROM users WHERE id = ?";
+    const query = "SELECT name, address FROM users WHERE id = $1"; // Uso de $1
 
-    db.query(query, [userId], (err, result) => {
-        if (err) {
+    db.query(query, [userId])
+        .then((result) => {
+            if (result.rows.length === 0) {
+                return res.status(404).json({ error: "Usuario no encontrado." });
+            }
+
+            const user = result.rows[0];
+            res.status(200).json({
+                name: user.name,
+                address: user.address,
+            });
+        })
+        .catch((err) => {
             console.error("Error al buscar el usuario:", err);
             return res.status(500).json({ error: "Error al obtener los datos del usuario." });
-        }
-
-        if (result.length === 0) {
-            return res.status(404).json({ error: "Usuario no encontrado." });
-        }
-
-        const user = result[0];
-        res.status(200).json({
-            name: user.name,
-            address: user.address,
         });
-    });
 });
 
 // Endpoint para iniciar sesión
@@ -103,19 +99,20 @@ app.post("/login", (req, res) => {
         return res.status(400).json({ error: "Correo y contraseña son obligatorios." });
     }
 
-    const query = "SELECT id FROM users WHERE address = ? AND password = ?";
-    db.query(query, [email, password], (err, results) => {
-        if (err) {
+    const query = "SELECT id FROM users WHERE address = $1 AND password = $2"; // Uso de $1, $2
+
+    db.query(query, [email, password])
+        .then((results) => {
+            if (results.rows.length === 0) {
+                return res.status(401).json({ error: "Correo o contraseña incorrectos." });
+            }
+
+            res.status(200).json({ userId: results.rows[0].id });
+        })
+        .catch((err) => {
             console.error("Error al validar las credenciales:", err);
             return res.status(500).json({ error: "Error al iniciar sesión." });
-        }
-
-        if (results.length === 0) {
-            return res.status(401).json({ error: "Correo o contraseña incorrectos." });
-        }
-
-        res.status(200).json({ userId: results[0].id });
-    });
+        });
 });
 
 // Endpoint para autenticar y registrar el pedido
@@ -127,30 +124,30 @@ app.post("/authenticate", (req, res) => {
     }
 
     // Verificar si el usuario existe
-    const queryUser = "SELECT id FROM users WHERE address = ? AND password = ?";
-    db.query(queryUser, [email, password], (err, results) => {
-        if (err) {
-            console.error("Error en la autenticación:", err);
-            return res.status(500).json({ error: "Error del servidor." });
-        }
-
-        if (results.length === 0) {
-            return res.status(401).json({ error: "Credenciales incorrectas." });
-        }
-
-        const userId = results[0].id;
-
-        // Registrar el pedido
-        const queryPedido = "INSERT INTO pedidos (user_id, service_name) VALUES (?, ?)";
-        db.query(queryPedido, [userId, serviceName], (err) => {
-            if (err) {
-                console.error("Error al registrar el pedido:", err);
-                return res.status(500).json({ error: "Error al registrar el pedido." });
+    const queryUser = "SELECT id FROM users WHERE address = $1 AND password = $2"; // Uso de $1, $2
+    db.query(queryUser, [email, password])
+        .then((results) => {
+            if (results.rows.length === 0) {
+                return res.status(401).json({ error: "Credenciales incorrectas." });
             }
 
-            res.status(200).json({ message: "Pedido registrado con éxito." });
+            const userId = results.rows[0].id;
+
+            // Registrar el pedido
+            const queryPedido = "INSERT INTO pedidos (user_id, service_name) VALUES ($1, $2)"; // Uso de $1, $2
+            db.query(queryPedido, [userId, serviceName])
+                .then(() => {
+                    res.status(200).json({ message: "Pedido registrado con éxito." });
+                })
+                .catch((err) => {
+                    console.error("Error al registrar el pedido:", err);
+                    return res.status(500).json({ error: "Error al registrar el pedido." });
+                });
+        })
+        .catch((err) => {
+            console.error("Error en la autenticación:", err);
+            return res.status(500).json({ error: "Error del servidor." });
         });
-    });
 });
 
 // Endpoint para obtener los pedidos de un usuario
@@ -162,31 +159,32 @@ app.post("/pedidos", (req, res) => {
     }
 
     // Verificar si el usuario existe
-    const queryUser = "SELECT id FROM users WHERE address = ? AND password = ?";
-    db.query(queryUser, [email, password], (err, results) => {
-        if (err) {
-            console.error("Error en la autenticación:", err);
-            return res.status(500).json({ error: "Error del servidor." });
-        }
-
-        if (results.length === 0) {
-            return res.status(401).json({ error: "Credenciales incorrectas." });
-        }
-
-        const userId = results[0].id;
-
-        // Obtener los pedidos del usuario
-        const queryPedidos = "SELECT * FROM pedidos WHERE user_id = ?";
-        db.query(queryPedidos, [userId], (err, pedidos) => {
-            if (err) {
-                console.error("Error al obtener pedidos:", err);
-                return res.status(500).json({ error: "Error al obtener pedidos." });
+    const queryUser = "SELECT id FROM users WHERE address = $1 AND password = $2"; // Uso de $1, $2
+    db.query(queryUser, [email, password])
+        .then((results) => {
+            if (results.rows.length === 0) {
+                return res.status(401).json({ error: "Credenciales incorrectas." });
             }
 
-            res.status(200).json({ pedidos });
+            const userId = results.rows[0].id;
+
+            // Obtener los pedidos del usuario
+            const queryPedidos = "SELECT * FROM pedidos WHERE user_id = $1"; // Uso de $1
+            db.query(queryPedidos, [userId])
+                .then((pedidos) => {
+                    res.status(200).json({ pedidos: pedidos.rows });
+                })
+                .catch((err) => {
+                    console.error("Error al obtener pedidos:", err);
+                    return res.status(500).json({ error: "Error al obtener pedidos." });
+                });
+        })
+        .catch((err) => {
+            console.error("Error en la autenticación:", err);
+            return res.status(500).json({ error: "Error del servidor." });
         });
-    });
 });
+
 // Endpoint para cancelar un pedido
 app.post("/cancelarPedido", (req, res) => {
     const { pedidoId } = req.body;
@@ -196,21 +194,27 @@ app.post("/cancelarPedido", (req, res) => {
     }
 
     // Actualizar el estado del pedido
-    const query = "UPDATE pedidos SET estado = 'Cancelado' WHERE id = ?";
-    db.query(query, [pedidoId], (err, result) => {
-        if (err) {
+    const query = "UPDATE pedidos SET estado = 'Cancelado' WHERE id = $1"; // Uso de $1
+    db.query(query, [pedidoId])
+        .then((result) => {
+            if (result.rowCount === 0) {
+                return res.status(404).json({ error: "Pedido no encontrado." });
+            }
+
+            res.status(200).json({ message: "Pedido cancelado exitosamente." });
+        })
+        .catch((err) => {
             console.error("Error al cancelar el pedido:", err);
             return res.status(500).json({ error: "Error al cancelar el pedido." });
-        }
-
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ error: "Pedido no encontrado." });
-        }
-
-        res.status(200).json({ message: "Pedido cancelado exitosamente." });
-    });
+        });
 });
 
+// Cerrar la conexión a la base de datos cuando el servidor se apaga
+process.on('SIGINT', async () => {
+    await db.end();
+    console.log('Conexión a la base de datos cerrada.');
+    process.exit();
+});
 
 // Iniciar servidor
 app.listen(PORT, () => {
