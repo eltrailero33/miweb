@@ -37,15 +37,16 @@ app.post("/registro", (req, res) => {
         return res.status(400).json({ error: "Todos los campos son obligatorios." });
     }
 
-    const query = "INSERT INTO contactos (nombre, correo, telefono, servicio) VALUES (?, ?, ?, ?)";
+    const query = "INSERT INTO contactos (nombre, correo, telefono, servicio) VALUES ($1, $2, $3, $4)";
 
-    db.query(query, [nombre, correo, telefono, servicio], (err, result) => {
-        if (err) {
+    client.query(query, [nombre, correo, telefono, servicio])
+        .then(() => {
+            res.status(200).json({ message: "Datos registrados correctamente." });
+        })
+        .catch((err) => {
             console.error("Error al insertar datos:", err);
-            return res.status(500).json({ error: "Error al registrar los datos." });
-        }
-        res.status(200).json({ message: "Datos registrados correctamente." });
-    });
+            res.status(500).json({ error: "Error al registrar los datos." });
+        });
 });
 
 // Endpoint para registrar usuarios
