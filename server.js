@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
-const PORT = 3000;
+const PORT = 5432;
 
 // Middleware
 app.use(cors());
@@ -13,10 +13,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Configuración de la base de datos MySQL
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "root", // Cambia este valor si tu usuario es diferente
-    password: "Hellomoto1", // Cambia por tu contraseña de MySQL
-    database: "logistica", // Cambia por el nombre de tu base de datos
+    host: "dpg-ct7vs2i3esus73a302ig-a",
+    user: "logistica_2kwh_user", // Cambia este valor si tu usuario es diferente
+    password: "KuXI7DdgCqEHvyp7Y7pglRGFYo0osAKz", // Cambia por tu contraseña de MySQL
+    database: "logistica_2kwh", // Cambia por el nombre de tu base de datos
 });
 
 // Conexión a la base de datos
