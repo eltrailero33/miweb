@@ -1,30 +1,31 @@
+const { Client } = require("pg");
 const express = require("express");
-const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
-const PORT = 5432;
+const PORT = 3000;
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Configuración de la base de datos MySQL
-const db = mysql.createConnection({
-    host: "dpg-ct7vs2i3esus73a302ig-a",
-    user: "logistica_2kwh_user", // Cambia este valor si tu usuario es diferente
-    password: "KuXI7DdgCqEHvyp7Y7pglRGFYo0osAKz", // Cambia por tu contraseña de MySQL
-    database: "logistica_2kwh", // Cambia por el nombre de tu base de datos
+// Configuración de la base de datos PostgreSQL
+const db = new Client({
+    host: "dpg-ct7vs2i3esus73a302ig-a.oregon-postgres.render.com", // Host de Render
+    port: 5432,
+    user: "logistica_2kwh_user", // Usuario de tu base de datos
+    password: "KuXI7DdgCqEHvyp7Y7pglRGFYo0osAKz", // Contraseña de tu base de datos
+    database: "logistica_2kwh", // Nombre de tu base de datos
 });
 
 // Conexión a la base de datos
 db.connect((err) => {
     if (err) {
-        console.error("Error conectando a MySQL:", err);
+        console.error("Error conectando a PostgreSQL:", err);
     } else {
-        console.log("Conectado a la base de datos MySQL");
+        console.log("Conectado a la base de datos PostgreSQL");
     }
 });
 
