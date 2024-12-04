@@ -1,10 +1,15 @@
+// Requiere dotenv para cargar las variables de entorno
+require('dotenv').config();
+
 const { Client } = require("pg");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
-const PORT = 5432;
+
+// Usa process.env para obtener el puerto y la configuración de la base de datos
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
@@ -13,11 +18,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Configuración de la base de datos PostgreSQL
 const db = new Client({
-    host: "dpg-ct7vs2i3esus73a302ig-a.oregon-postgres.render.com", // Host de Render
-    port: 5432,
-    user: "logistica_2kwh_user", // Usuario de tu base de datos
-    password: "KuXI7DdgCqEHvyp7Y7pglRGFYo0osAKz", // Contraseña de tu base de datos
-    database: "logistica_2kwh", // Nombre de tu base de datos
+    host: process.env.DB_HOST,  // Usar la variable de entorno para el host
+    port: process.env.DB_PORT,  // Usar la variable de entorno para el puerto
+    user: process.env.DB_USER,  // Usar la variable de entorno para el usuario
+    password: process.env.DB_PASSWORD,  // Usar la variable de entorno para la contraseña
+    database: process.env.DB_NAME,  // Usar la variable de entorno para el nombre de la base de datos
 });
 
 // Conexión a la base de datos
@@ -185,38 +190,7 @@ app.post("/pedidos", (req, res) => {
         });
 });
 
-// Endpoint para cancelar un pedido
-app.post("/cancelarPedido", (req, res) => {
-    const { pedidoId } = req.body;
-
-    if (!pedidoId) {
-        return res.status(400).json({ error: "El ID del pedido es obligatorio." });
-    }
-
-    // Actualizar el estado del pedido
-    const query = "UPDATE pedidos SET estado = 'Cancelado' WHERE id = $1"; // Uso de $1
-    db.query(query, [pedidoId])
-        .then((result) => {
-            if (result.rowCount === 0) {
-                return res.status(404).json({ error: "Pedido no encontrado." });
-            }
-
-            res.status(200).json({ message: "Pedido cancelado exitosamente." });
-        })
-        .catch((err) => {
-            console.error("Error al cancelar el pedido:", err);
-            return res.status(500).json({ error: "Error al cancelar el pedido." });
-        });
-});
-
-// Cerrar la conexión a la base de datos cuando el servidor se apaga
-process.on('SIGINT', async () => {
-    await db.end();
-    console.log('Conexión a la base de datos cerrada.');
-    process.exit();
-});
-
-// Iniciar servidor
+// Iniciar el servidor
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`Servidor corriendo en puerto ${PORT}`);
 });
