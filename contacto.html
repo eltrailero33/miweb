@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logística y Publicidad Lito's</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <a href="index.html"><img src="img/logo.png" alt="Logo de Logística y Publicidad Lito's" height="70px"></a>
+        </div>
+        <nav>
+           <ul class="nav-links">
+                <li><a href="servPublicidad.html">Servicios de publicidad</a></li>
+                <li><a href="bolsatrabajo.html">Bolsa de Trabajo</a></li>
+                <li><a href="reclutamiento.html">Reclutamiento de Personal</a></li>
+                <li><a href="mensajeria.html">Mensajería y Paquetería</a></li>
+                <li><a href="contacto.html">Contáctanos</a></li>
+           </ul>            
+        </nav>
+    </header>
+    <section id="contacto">
+        <div class="contact-container">
+            <div class="contact-form">
+                <h3>Contáctanos</h3>
+                <form action="procesar_formulario.php" method="post">
+                    <label for="nombre">Nombre o Empresa:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+    
+                    <label for="correo">Correo Electrónico:</label>
+                    <input type="email" id="correo" name="correo" required>
+    
+                    <label for="telefono">Número de Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono" required>
+    
+                    <label for="interes">¿Qué servicio te interesa?</label>
+                    <div class="checkbox-group">
+                        <label for="publicidad">Servicios de Publicidad</label><br>
+                        <input type="checkbox" id="publicidad" name="servicio[]" value="Servicios de Publicidad">
+                        <label for="mensajeria">Mensajería y Paquetería</label>
+                        <input type="checkbox" id="mensajeria" name="servicio[]" value="Mensajería y Paquetería">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-lg">Contactar</button>                 
+                </form>
+            </div>
+    
+            <!-- Imagen separadora -->
+            <div class="separador">
+                <img src="img/barra.png">
+            </div>
+    
+            <div class="contact-info">
+                <h3>Datos de Contacto</h3>
+                <p><strong>Teléfono o WhatsApp:</strong> <br> 686-510-3828 <br> 686-178-8484</p>
+                <p><strong>Correo Electrónico:</strong> <br> 
+                    <a href="mailto:k.cortina@hotmail.com">k.cortina@hotmail.com</a> <br> 
+                    <a href="mailto:adolfo.herdezm@gmail.com">adolfo.herdezm@gmail.com</a>
+                </p>
+                <p><strong>Facebook:</strong> <br> 
+                    <a href="https://www.facebook.com/share/nBQNeRuKVczUTNsV/" target="_blank">Visítanos en Facebook</a>
+                </p>
+                <h3>Horario de atención</h3>
+                <p><strong>Lunes a viernes:</strong> <br> 07:00 AM - 08:00 PM
+                <p><strong>Sabado y domingo:</strong> <br> 09:00 AM - 03:00 PM
+            </div>
+        </div>
+        
+    </section>
+    <div class="mapa">
+        <h2>Ubicación</h2>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d408.35388260578134!2d-115.37119974081737!3d32.565445223280165!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80d775d3bdda89bb%3A0x9c14203bc278e5ce!2sAv.%20Xochitl%C3%A1n%203901%2C%20Valle%20de%20Puebla%2C%2021395%20Mexicali%2C%20B.C.!5e0!3m2!1ses-419!2smx!4v1729189587972!5m2!1ses-419!2smx" width="1200" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  
+    <footer>
+        <p>Contacta con nosotros al <strong>(686-510-3828)</strong> o visítanos en nuestras redes sociales.</p>
+    </footer>
+</body>
+</html>

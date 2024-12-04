@@ -1,0 +1,169 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logística y Publicidad Lito's</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <a href="index.html"><img src="img/logo.png" alt="Logo de Logística y Publicidad Lito's" height="70px"></a>
+        </div>
+        <nav>
+           <ul class="nav-links">
+                <li><a href="servPublicidad.html">Servicios de publicidad</a></li>
+                <li><a href="bolsatrabajo.html">Bolsa de Trabajo</a></li>
+                <li><a href="reclutamiento.html">Reclutamiento de Personal</a></li>
+                <li><a href="mensajeria.html">Mensajería y Paquetería</a></li>
+                <li><a href="contacto.html">Contáctanos</a></li>
+           </ul>            
+        </nav>
+    </header>
+
+    <section id="registro">
+        <h1>Regístrate</h1>
+        <form onsubmit="event.preventDefault(); registrarUsuario();">
+            <input type="text" id="name" placeholder="Nombre" required />
+            <input type="text" id="address" placeholder="Correo electrónico" required />
+            <input type="password" id="password" placeholder="Contraseña" required />
+            <button type="submit">Registrar</button>
+        </form>
+    </section>
+
+    <main>
+        <section id="publicidad">
+            <div class="titulo-publicidad">
+                <h2>Servicios de publicidad</h2>
+                <p>Ofrecemos soluciones publicitarias para asegurar que tu mensaje llegue de manera efectiva. También ofrecemos apoyo en la publicación de vacantes y reclutamiento de personal, ayudándote a encontrar el mejor talento.</p>
+            </div>
+
+            <div class="contenido-publicidad">
+                <section class="box-style perifoneo">
+                    <h2>Perifoneo con Valla Móvil</h2>
+                    <a href="servPublicidad.html" ><img src="img/vallamovil.png" class="foto"></a>
+                    <p>Ofrecemos el servicio de perifoneo junto con valla móvil para publicitar tu negocio de forma efectiva por las calles de la ciudad de Mexicali.</p>
+                </section>
+            
+                <section class="box-style volanteo">
+                    <h2>Volanteo</h2>
+                    <a href="servPublicidad.html" ><img src="img/volanteo.png" class="foto"></a>
+                    <p>Colocamos volantes en áreas clave durante el recorrido de la valla movil, asegurando que tu mensaje llegue a más personas.</p>
+                </section>
+                <section class="box-style bolsa-trabajo">
+                    <h2>Bolsa de Trabajo</h2>
+                    <a href="bolsatrabajo.html" ><img src="img/bolsadetrabajo.png" class="foto"></a>
+                    <p>Publicamos tus vacantes en nuestra bolsa de trabajo para ayudarte a encontrar al mejor talento.</p>
+                </section>
+        
+                <section class="box-style reclutamiento">
+                    <h2>Reclutamiento de Personal</h2>
+                    <a href="reclutamiento.html" ><img src="img/recluta.png" class="foto"></a>
+                    <p>Te apoyamos en el proceso de reclutamiento de personal, desde la publicación de vacantes hasta las entrevistas y exámenes médicos.</p>
+                </section>
+            </div>
+        </section>
+
+        <section id="mensajeria">
+            <div class="titulo-publicidad">
+                <h2>Mensajería y Paquetería</h2>
+                <p>Ofrecemos servicios de mensajería y paquetería en Mexicali, San Luis Río Colorado, Tijuana, Tecate, Rosarito y Ensenada con autos sedanes. También realizamos recolección y envío de muestras médicas para laboratorios y hospitales, garantizando entregas seguras y puntuales.                </p>
+            </div>
+            <div class="contenido-publicidad">
+                <section class="box-style servicios-mensajeria">
+                    <h2>Mensajería y Paquetería</h2>
+                    <a href="mensajeria.html" ><img src="img/mensajeria.png" class="foto"></a>
+                    <p>Ofrecemos servicios de mensajería y paquetería en Mexicali, San Luis Río Colorado, Tijuana, Tecate, Rosarito y Ensenada, con autos sedanes.</p>
+                </section>
+                <section class="box-style muestras-humanas">
+                    <h2>Envío de Muestras Médicas</h2>
+                    <a href="mensajeria.html" ><img src="img/muestras.png" class="foto"></a>
+                    <p>Realizamos recolección, transporte y envío de muestras médicas para laboratorios y hospitales en Baja California y San Luis Río Colorado, garantizando tiempos de entrega seguros.</p>
+                </section>
+            </div>
+        </section>
+
+        <section id="contacto">
+            <div class="contact-container">
+                <div class="contact-form">
+                    <h3>Contáctanos</h3>
+                    <form onsubmit="event.preventDefault(); enviarContacto();">
+                        <input type="text" id="nombre" placeholder="Nombre" required />
+                        <input type="email" id="correo" placeholder="Correo" required />
+                        <input type="text" id="telefono" placeholder="Teléfono" required />
+                        <input type="text" id="servicio" placeholder="Servicio" required />
+                        <button type="submit">Enviar</button>
+                    </form>
+                    
+                </div>
+        
+                <!-- Imagen separadora -->
+                <div class="separador">
+                    <img src="img/barra.png">
+                </div>
+        
+                <!-- Datos de Contacto -->
+                <div class="contact-info">
+                    <h3>Datos de Contacto</h3>
+                    <p><strong>Teléfono o WhatsApp:</strong> <br> 686-510-3828 <br> 686-178-8484</p>
+                    <p><strong>Correo Electrónico:</strong> <br> 
+                        <a href="mailto:k.cortina@hotmail.com">k.cortina@hotmail.com</a> <br> 
+                        <a href="mailto:adolfo.herdezm@gmail.com">adolfo.herdezm@gmail.com</a>
+                    </p>
+                    <p><strong>Facebook:</strong> <br> 
+                        <a href="https://www.facebook.com/share/nBQNeRuKVczUTNsV/" target="_blank">Visítanos en Facebook</a>
+                    </p>
+                </div>
+            </div>
+            
+        </section>
+    </main>
+
+    <script>
+        async function enviarContacto() {
+            const nombre = document.getElementById("nombre").value;
+            const correo = document.getElementById("correo").value;
+            const telefono = document.getElementById("telefono").value;
+            const servicio = document.getElementById("servicio").value;
+
+            const response = await fetch("http://localhost:3000/registro", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ nombre, correo, telefono, servicio }),
+            });
+
+            const data = await response.json();
+            alert(data.message || data.error);
+        }
+
+        async function registrarUsuario() {
+            const name = document.getElementById("name").value;
+            const address = document.getElementById("address").value;
+            const password = document.getElementById("password").value;
+
+            const response = await fetch("http://localhost:3000/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ name, address, password }),
+            });
+
+            const data = await response.json();
+            alert(data.message || data.error);
+        }
+    </script>
+
+    <div class="mapa">
+        <h2>Ubicación</h2>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d408.35388260578134!2d-115.37119974081737!3d32.565445223280165!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80d775d3bdda89bb%3A0x9c14203bc278e5ce!2sAv.%20Xochitl%C3%A1n%203901%2C%20Valle%20de%20Puebla%2C%2021395%20Mexicali%2C%20B.C.!5e0!3m2!1ses-419!2smx!4v1729189587972!5m2!1ses-419!2smx" width="1200" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <footer>
+        <p>Contacta con nosotros al <strong>(686-510-3828)</strong> o visítanos en nuestras redes sociales.</p>
+    </footer>
+</body>
+</html>
